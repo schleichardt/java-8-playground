@@ -1,8 +1,10 @@
 package java8;
 
+import base.Demo;
 import com.google.common.base.Strings;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.function.Function;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -64,5 +66,18 @@ public class P_1_3_FunctionalInterfaces {
     @FunctionalInterface
     static interface Closeable {
         void close();
+    }
+
+    @Test
+    public void checkedExceptionsNeedToBeCatchedIfInterfaceDoesNotThrowIt() throws Exception {
+        final Runnable task = () -> {
+            try {
+                throw new IOException("x");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        };
+        // does not work in Java, but Scala:
+        // final Runnable task = () -> throw new IOException("x");
     }
 }
