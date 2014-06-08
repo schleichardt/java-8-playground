@@ -85,7 +85,10 @@ public class P_1_2_LambdaSyntax {
             If a type annotation is given, parenthesis are necessary.
             Final keyword and Annotations are for lambda expressions possible.
 
-            promiseSource().map(_.toLowerCase()); does not work like in Scala
+            In Scala this is possible:
+            promiseSource.map(_.toLowerCase)
+            See P_1_4_MethodReferences.
+            promiseSource().map(String::toLowerCase)
 
             Useful to map promises.
             Useful for background tasks.
