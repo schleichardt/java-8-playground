@@ -6,13 +6,14 @@ import base.Demo;
 import org.junit.Test;
 import play.libs.F;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class LambdaExpressions {
+public class P_1_2_LambdaSyntax {
 
     /*
     closures use -> (speak: arrow) instead of => as in Scala to separate parameters from the body
@@ -58,17 +59,31 @@ public class LambdaExpressions {
 
     /*
     one liner does not need or allow a return keyword.
+    You never specify the return type explicitly, the compiler infers it from the context.
      */
     @Test
     public void withReturnValue() throws Exception {
-         Demo.Logger.trace(() ->Demo.bigAndComplexObject() + " String concatenation");
+         Demo.Logger.trace(() -> Demo.bigAndComplexObject() + " String concatenation");
         //using call by name is better than this workaround to minimize String concatenation
         //since sometimes getting a value is expensive
         Demo.Logger.trace("{} String concatenation", Demo.bigAndComplexObject());
     }
 
     /*
-            closures with one parameter can optionally contain parenthesis
+    If you use a block, you need return and semicolons per statement.
+     */
+    @Test
+    public void withReturnValueAndBlock() throws Exception {
+         Demo.Logger.trace(() -> {
+             return Demo.bigAndComplexObject() + " String concatenation";
+         });
+    }
+
+    /*
+            closures with one parameter can optionally contain parenthesis.
+            The parameter can lack a Type annotation. The compiler deduced it.
+            If a type annotation is given, parenthesis are necessary.
+            Final keyword and Annotations are for lambda expressions possible.
 
             promiseSource().map(_.toLowerCase()); does not work like in Scala
 
@@ -78,6 +93,17 @@ public class LambdaExpressions {
     @Test
     public void withParameter() {
         Demo.promiseSource().map(x -> x.toLowerCase()).map((x) -> x.toUpperCase());
+        Demo.promiseSource().map((String x) -> x.toLowerCase());
+        Demo.promiseSource().map((final @Nonnull String x) -> x.toLowerCase());
+    }
+
+    /*
+    Beautiful example to save classes (inner, anonymous, direct).
+     */
+    @Test
+    public void withParameters() {
+        final List<String> list = Demo.newMutableList();
+        Collections.sort(list, (a, b) -> Integer.compare(a.length(), b.length()));
     }
 
 
