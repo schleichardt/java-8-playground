@@ -18,4 +18,5 @@ project/plugins/project/
 
 .*
 !.gitignore
+!.travis.yml
 *.iml

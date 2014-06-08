@@ -1,0 +1,11 @@
+language: scala
+scala:
+- 2.10.4
+script:
+- ./sbt test
+jdk:
+- oraclejdk8
+notifications:
+  email:
+    on_success: never
+    on_failure: change
