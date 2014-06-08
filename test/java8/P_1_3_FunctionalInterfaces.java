@@ -1,5 +1,12 @@
 package java8;
 
+import com.google.common.base.Strings;
+import org.junit.Test;
+
+import java.util.function.Function;
+
+import static org.fest.assertions.Assertions.assertThat;
+
 public class P_1_3_FunctionalInterfaces {
 
     /*
@@ -12,10 +19,6 @@ public class P_1_3_FunctionalInterfaces {
     => Runnable, Comparator, F.Function.X (for example F.Function in F.Promise.map), F.CallbackX
 
     Lambdas can only be used on functional interfaces.
-    Functions are no first class members, not as parameters nor as return values as in Scala:
-    trait X {
-        def foo(param: Function[A,B): Function[C,D]
-    }
 
     But interfaces can be used as parameters or return values.
     So they are just syntactic sugar.
@@ -31,4 +34,35 @@ public class P_1_3_FunctionalInterfaces {
     Predicate
     Supplier
      */
+
+    @Test
+    public void functionAsParameter() throws Exception {
+        assertThat(compute("hello", s -> s.length())).isEqualTo(5);
+    }
+
+    public int compute(final String string, final Function<String, Integer> function) {
+        return function.apply(string);
+    }
+
+    @Test
+    public void functionAsReturnValueAndVariable() throws Exception {
+        final Function<Integer, String> function = createFunction();
+        assertThat(function.apply(5)).isEqualTo("*****");
+    }
+
+    public Function<Integer, String> createFunction() {
+        return i -> Strings.repeat("*", i);
+    }
+
+    /*
+    Compiler checks with the annotation that you have exactly one abstact method.
+
+    In addition it generates javadoc like this:
+
+    This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.
+     */
+    @FunctionalInterface
+    static interface Closeable {
+        void close();
+    }
 }

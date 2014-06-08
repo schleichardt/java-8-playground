@@ -141,4 +141,11 @@ public class P_1_2_LambdaSyntax {
             system.shutdown();
         }
     }
+
+    @Test
+    public void useFinalVariablesInClosure() throws Exception {
+        final String hello = "hello";
+        final String result = Demo.promiseSource().map(s -> s + hello).get(1000);
+        assertThat(result).endsWith(hello);
+    }
 }
