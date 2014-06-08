@@ -56,8 +56,11 @@ public class P_1_3_FunctionalInterfaces {
         return i -> Strings.repeat("*", i);
     }
 
+    //function as member or variable
+    final Function<String, Integer> function = s -> s.length();
+
     /*
-    Compiler checks with the annotation that you have exactly one abstact method.
+    Compiler checks with the annotation that you have exactly one abstract method.
 
     In addition it generates javadoc like this:
 

@@ -4,6 +4,8 @@ import base.Demo;
 import org.junit.Test;
 import play.libs.F;
 
+import java.util.Comparator;
+
 import static org.fest.assertions.Assertions.assertThat;
 
 public class P_1_4_MethodReferences {
@@ -91,5 +93,18 @@ public class P_1_4_MethodReferences {
         F.Promise<String> mapped() {
             return promise.map(P_1_4_MethodReferences.this::triple);
         }
+    }
+
+    @Test
+    public void inForeach() throws Exception {
+        //method for side effects
+        //forEach has an interface default implementation in Iterable
+        Demo.newMutableList().forEach(System.out::println);
+    }
+
+    @Test
+    public void helpingCreatingComparators() throws Exception {
+        final Comparator<String> comparator1 = Comparator.comparing(String::length);
+        final Comparator<String> comparator2 = (a, b) -> Integer.compare(a.length(), b.length());
     }
 }
