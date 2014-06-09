@@ -9,6 +9,7 @@ import scalaz.Alpha;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 public final class Demo {
 
@@ -51,6 +52,28 @@ public final class Demo {
 
         public static void trace(String s, Object o) {
 
+        }
+    }
+
+    public static Stream<Person> newPersonStream() {
+        return Stream.of(new Person("Max Mustermann", 1));
+    }
+
+    public static class Person {
+        private final String name;
+        private final int id;
+
+        public Person(String name, int id) {
+            this.name = name;
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getId() {
+            return id;
         }
     }
 }
