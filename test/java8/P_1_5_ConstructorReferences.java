@@ -6,6 +6,8 @@ import org.junit.Test;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 public class P_1_5_ConstructorReferences {
     /*
     like method references, but method name is "new"
@@ -34,5 +36,13 @@ public class P_1_5_ConstructorReferences {
     public void arrayConstructorForStreamApi() throws Exception {
         final Something[] somethings = Lists.newArrayList("foo", "bar", "baz").stream()
                 .map(Something::new).toArray(Something[]::new);
+    }
+
+    @Test
+    public void arrayConstructorTrap() throws Exception {
+        final Object[] actual = Lists.newArrayList(1, 2, 3).
+                stream().map(Integer[]::new).toArray();
+        final Integer[][] expected = {new Integer[]{null}, new Integer[]{null, null}, new Integer[]{null, null, null}};
+        assertThat(actual).isEqualTo(expected);
     }
 }
