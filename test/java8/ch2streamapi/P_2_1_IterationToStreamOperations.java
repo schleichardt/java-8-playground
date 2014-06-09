@@ -1,4 +1,4 @@
-package java8;
+package java8.ch2streamapi;
 
 import base.Demo;
 import com.google.common.collect.Lists;

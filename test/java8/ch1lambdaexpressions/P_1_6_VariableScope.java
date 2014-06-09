@@ -1,4 +1,4 @@
-package java8;
+package java8.ch1lambdaexpressions;
 
 import com.google.common.collect.Lists;
 import org.junit.Test;

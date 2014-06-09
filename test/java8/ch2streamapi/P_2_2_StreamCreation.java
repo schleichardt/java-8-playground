@@ -1,4 +1,4 @@
-package java8;
+package java8.ch2streamapi;
 
 import base.Demo;
 import org.junit.Test;
@@ -25,7 +25,10 @@ public class P_2_2_StreamCreation {
 
     @Test
     public void fromArray() throws Exception {
+        //possible, but in type inference situations it is possible, that the
+        //compile uses the varargs version with one element, so the stream size is 1!
         Stream<String> stream = Stream.of(array);
+        Stream<String> stream2 = Arrays.stream(array);//preferred
     }
 
     @Test

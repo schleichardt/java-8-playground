@@ -1,4 +1,4 @@
-package java8;
+package java8.ch1lambdaexpressions;
 
 import base.Demo;
 import com.google.common.base.Strings;

@@ -1,4 +1,4 @@
-package java8;
+package java8.ch1lambdaexpressions;
 
 import akka.actor.ActorSystem;
 import akka.actor.Scheduler;
