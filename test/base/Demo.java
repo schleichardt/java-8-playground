@@ -30,7 +30,7 @@ public final class Demo {
         return Duration.create(0, TimeUnit.MILLISECONDS);
     }
 
-    public static List<String> newMutableList() {
+    public static List<String> newStringList() {
         return Lists.newArrayList("foo", "bar", "baz");
     }
 

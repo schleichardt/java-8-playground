@@ -3,7 +3,6 @@ package java8.ch2streamapi;
 import base.Demo;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -30,7 +29,7 @@ public class P_2_4_ExtractingSubstreamsAndCombiningStreams {
     public void peekForSpying() throws Exception {
         //it could also named as onElementRetrieved
         final Consumer<String> sideEffectForDebugging = element -> System.out.println(element);
-        Demo.newMutableList().stream().peek(sideEffectForDebugging);
+        Demo.newStringList().stream().peek(sideEffectForDebugging);
         //with peek you can make the lazyness of a stream visible
     }
 }

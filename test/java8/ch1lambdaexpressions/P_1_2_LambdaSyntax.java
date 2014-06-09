@@ -7,7 +7,6 @@ import org.junit.Test;
 import play.libs.F;
 
 import javax.annotation.Nonnull;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -105,7 +104,7 @@ public class P_1_2_LambdaSyntax {
      */
     @Test
     public void withParameters() {
-        final List<String> list = Demo.newMutableList();
+        final List<String> list = Demo.newStringList();
         Collections.sort(list, (a, b) -> Integer.compare(a.length(), b.length()));
     }
 

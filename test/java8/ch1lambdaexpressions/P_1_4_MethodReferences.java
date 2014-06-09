@@ -99,7 +99,7 @@ public class P_1_4_MethodReferences {
     public void inForeach() throws Exception {
         //method for side effects
         //forEach has an interface default implementation in Iterable
-        Demo.newMutableList().forEach(System.out::println);
+        Demo.newStringList().forEach(System.out::println);
     }
 
     @Test

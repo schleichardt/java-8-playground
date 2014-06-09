@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -19,7 +18,7 @@ public class P_2_3_FilterMapFlatMap {
     @Test
     public void StreamsCanNotBeReused() throws Exception {
 
-        final Stream<String> stream = Demo.newMutableList().stream();
+        final Stream<String> stream = Demo.newStringList().stream();
         final Stream<String> upperCased = stream.map(String::toUpperCase);
         try {
             final Stream<Integer> lengths = stream.map(String::length);
@@ -32,18 +31,18 @@ public class P_2_3_FilterMapFlatMap {
     @Test
     public void filter() throws Exception {
         final Predicate<String> f = w -> w.startsWith("f");//T -> boolean
-        Demo.newMutableList().stream().filter(f);
+        Demo.newStringList().stream().filter(f);
     }
 
     @Test
     public void map() throws Exception {
         //stream not of String, but of char
-        final Stream<Character> stream = Demo.newMutableList().stream().map(s -> s.charAt(0));
+        final Stream<Character> stream = Demo.newStringList().stream().map(s -> s.charAt(0));
     }
 
     @Test
     public void flatMap() throws Exception {
-        final Stream<char[]> charArrayStream = Demo.newMutableList().stream().map(s -> s.toCharArray());
+        final Stream<char[]> charArrayStream = Demo.newStringList().stream().map(s -> s.toCharArray());
 //        final Stream<Stream<Character>> stream = charArrayStream.map(this::charStream);//maybe not that useful
         final Stream<Character> characterStream = charArrayStream.flatMap(this::charStream);
         assertThat(characterStream.collect(Collectors.toList())).isEqualTo(Lists.newArrayList('f', 'o', 'o', 'b', 'a', 'r', 'b', 'a', 'z'));

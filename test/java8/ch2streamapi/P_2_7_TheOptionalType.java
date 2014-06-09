@@ -2,7 +2,6 @@ package java8.ch2streamapi;
 
 import org.junit.Test;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;

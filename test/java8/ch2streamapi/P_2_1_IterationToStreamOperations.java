@@ -30,7 +30,7 @@ public class P_2_1_IterationToStreamOperations {
 
     @Test
     public void pipeline() throws Exception {
-        final Stream<String> stream = Demo.newMutableList().stream();//1. create a stream
+        final Stream<String> stream = Demo.newStringList().stream();//1. create a stream
         final Stream<String> mappedStream = stream.map(String::toUpperCase);//2. specify intermediate operations (can be more than one)
         final List<String> result = mappedStream.collect(Collectors.toList());//3. terminal operation to produce a result
         assertThat(result).isEqualTo(Lists.newArrayList("FOO", "BAR", "BAZ"));

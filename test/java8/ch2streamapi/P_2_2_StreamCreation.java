@@ -4,7 +4,6 @@ import base.Demo;
 import org.junit.Test;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -78,7 +77,7 @@ public class P_2_2_StreamCreation {
 
     @Test
     public void createStreamInTryBlock() throws Exception {
-        try (final Stream<String> elements = Demo.newMutableList().stream()) {
+        try (final Stream<String> elements = Demo.newStringList().stream()) {
             final long count = elements.count();
         }
 
