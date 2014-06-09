@@ -70,7 +70,7 @@ public class P_2_2_StreamCreation {
 
     @Test
     public void fromFileLines() throws Exception {
-        final Stream<String> lines = Files.lines(Paths.get("/pfad"));
+        final Stream<String> lines = Files.lines(Paths.get("./README.md"));
     }
 
     @Test
