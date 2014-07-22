@@ -74,7 +74,13 @@
         //non-blocking
         CompletionStage&lt;U&gt;	thenApply(Function&lt;? super T,? extends U&gt; fn);//compose futures, in Scala Futures/Play Promises it is map
 
-        CompletionStage<Void>	thenAccept(Consumer<? super T> action);//side effects, println, store to database
+        CompletionStage&lt;Void&gt;	thenAccept(Consumer<? super T> action);//side effects, println, store to database
+
+        CompletionStage&lt;U&gt; handle(BiFunction&lt;? super T,Throwable,? extends U&gt; fn);//in Play Java known as recover, either value is null or exception is null
+        CompletionStage&lt;Void&gt; whenComplete(BiFunction&lt;? super T,Throwable,? extends U&gt; fn);//callback variant
+
+         CompletionStage&lt;U&gt;	thenCompose(Function&lt;? super T,? extends CompletionStage&lt;U&gt;&gt; fn);//if this thing is done, call fn the result of this ant return the result of fn, in scala and play flatMap
+         CompletableFuture&lt;V&gt;	thenCombine(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn);//other is another independend future, fn maps the result of this and other into a new result, situation where in scala/play is uses flatmap
     }
 </code></pre>
             </section>
