@@ -200,6 +200,27 @@ for simplicity it is omitted.
         final F.Promise<String> hardenedPromise = promise.recoverWith(function);
     }
 
+    @Test
+    public void conversionToPromise() throws Exception {
+        final CompletableFuture<String> future = future();
+        final F.RedeemablePromise<String> promise = F.RedeemablePromise.empty();//extends F.Promise
+        future.whenComplete((s, t) -> {
+            if (s != null) {
+                promise.success(s);
+            } else {
+                promise.failure(t);
+            }
+        });
+    }
+
+    @Test
+    public void conversionToFuture() throws Exception {
+        final F.Promise<String> promise = promise();
+        final CompletableFuture<String> future = new CompletableFuture<>();
+        promise.onFailure(t -> future.completeExceptionally(t));
+        promise.onRedeem(v -> future.complete(v));
+    }
+
     //best practices like separating future and domain code
     //thenAccept vs. thenAcceptAsync
     //http://blog.krecan.net/2013/12/25/completablefutures-why-to-use-async-methods/
