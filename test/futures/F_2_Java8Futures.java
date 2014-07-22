@@ -1,6 +1,5 @@
 package futures;
 
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLBoundPortType;
 import org.junit.Test;
 import play.libs.F;
 
@@ -8,9 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 import play.libs.ws.*;
@@ -116,7 +113,7 @@ for simplicity it is omitted.
     }
 
     /*
-    List<Future<A>> to Future<List<A>>
+    List<Future<A>> to Future<List<A>>, useful for 3 or more futures to combine
      */
     @Test
     public void listMapping() throws Exception {
@@ -133,6 +130,7 @@ for simplicity it is omitted.
     }
 
     //from http://www.nurkiewicz.com/2013/05/java-8-completablefuture-in-action.html
+    @SuppressWarnings("unchecked")
     private static <T> CompletableFuture<List<T>> sequence(List<CompletableFuture<T>> futures) {
         CompletableFuture<Void> allDoneFuture =
                 CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
@@ -143,10 +141,66 @@ for simplicity it is omitted.
         );
     }
 
+    @Test
+    public void recoverWithoutNewFuture() {
+        final CompletableFuture<String> future = future();
+        final CompletableFuture<String> hardenedFuture = future.exceptionally(t -> {
+            if (t instanceof FooBarException) {
+                return "";
+            } else {
+                throw new RuntimeException(t);//DANGER can't throw Throwable, not declared
+            }
+        });
+
+        final F.Promise<String> promise = promise();
+        final F.Function<Throwable, String> function = (Throwable t) -> { //F.Function declared throws Throwable
+            if (t instanceof FooBarException) {
+                return "";//return a default value
+            } else {
+                throw t;//error unexpected, so throw it again
+            }
+        };
+        final F.Promise<String> hardenedPromise = promise.recover(function);
+    }
+
+    @Test
+    public void recoverWithProducingNewFuture() throws Exception {
+        //there is no default way, but a workaround
+        final CompletableFuture<String> hardenedFuture = new CompletableFuture<>();//this constructor is used for event-driven computation
+        final CompletableFuture<String> future = future();
+        final BiConsumer<String, Throwable> action = (String s, Throwable t) -> {
+            if (s != null) {
+                hardenedFuture.complete(s);
+            } else if(t instanceof FooBarException) {//only use alternative for specific errors
+                final CompletableFuture<String> alternative = otherFuture();
+                alternative.whenComplete((alternativeValue, alternativeError) -> {
+                    if (alternativeValue != null) {
+                        hardenedFuture.complete(alternativeValue);
+                    } else {
+                        hardenedFuture.completeExceptionally(alternativeError);
+                    }
+                });
+            } else {
+                hardenedFuture.completeExceptionally(t);//with this style you can work with the Throwable
+            }
+        };
+        future.whenComplete(action);
 
 
 
-//best practices like separating future and domain code
+        final F.Promise<String> promise = promise();
+        final F.Function<Throwable, F.Promise<String>> function = t -> {
+            if(t instanceof FooBarException) {
+                final F.Promise<String> otherPromise = otherPromise();
+                return otherPromise;
+            } else {
+                throw t;
+            }
+        };
+        final F.Promise<String> hardenedPromise = promise.recoverWith(function);
+    }
+
+    //best practices like separating future and domain code
     //thenAccept vs. thenAcceptAsync
     //http://blog.krecan.net/2013/12/25/completablefutures-why-to-use-async-methods/
     //without async the mapped task may use the same thread pool/thread as the previous/thiw CompletableFuture one, with async it is added to the default thread pool or configured one
@@ -174,6 +228,10 @@ for simplicity it is omitted.
 
     }
 
+    private static class FooBarException extends RuntimeException {
+        private static final long serialVersionUID = 2L;
+    }
+
     //dummy impl
     private CompletableFuture<HttpResponse> futureWebServiceCall(final String arg) {
         final Supplier<HttpResponse> supplier = () -> new HttpResponse();
@@ -196,4 +254,19 @@ for simplicity it is omitted.
     private String expensiveOperation() {
         return "a" + "b";
     }
+//
+//    ////////////////////////////////
+//    final BiFunction<String, Throwable, String> recoverFunction = (String valueOrNull, Throwable throwableOrNull) -> {
+//        final String result;
+//        if(valueOrNull != null) {
+//            result = valueOrNull;
+//        } else if (throwableOrNull instanceof FooBarException) {
+//            result = "";
+//        } else {
+//            throw new RuntimeException(throwableOrNull);//DANGER can't throw Throwable since it is checked
+//        }
+//        return result;
+//    };
+//    final CompletableFuture<String> hardenedFuture = future.handle(recoverFunction);
+//    ////////////////////
 }
