@@ -52,8 +52,6 @@
                 </ul>
 <pre><code>
     public interface CompletionStage&lt;V&gt; {
-        //non-blocking
-        CompletionStage&lt;U&gt;	thenApply(Function&lt;? super T,? extends U&gt; fn);//compose futures, in Scala Futures/Play Promises it is map
 
         CompletionStage&lt;Void&gt;	thenAccept(Consumer&lt;? super T&gt; action);//side effects, println, store to database, send http response to client
 
@@ -74,6 +72,7 @@
                         <li>point: if you move a group of expensive tasks to another threadpool, you can make your application more responsive,
                         consider you have calls to external systems and they respond slow, if you would block the threadpool of your http answers, you could easily be saturated,
                         but since it is in another threadpool, you still can render the static index page</li>
+                        <li>sequence of futures to future of sequence</li>
                     </ul>
 <pre><code>
     public class CompletableFuture&lt;T&gt; implements CompletionStage&lt;T&gt;, Future&lt;T&gt; {
