@@ -16,7 +16,8 @@ public class P_2_6_SimpleReductions {
 
     @Test
     public void count() throws Exception {
-        final long count = Demo.newStringList().stream().filter(s -> s.startsWith("b")).count();
+        final long count = Demo.newStringList().stream().
+                filter(s -> s.startsWith("b")).count();
         assertThat(count).isEqualTo(2);
     }
 

@@ -16,8 +16,3 @@ libraryDependencies ++= Seq(
   "io.sphere.jvmsdk" %% "play-sdk" % "1.0.0-20140606-SNAPSHOT"
 )
 
-initialize := {
-  val _ = initialize.value
-  if (sys.props("java.specification.version") != "1.8")
-    sys.error("Java 8 is required for this project.")
-}

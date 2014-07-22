@@ -25,7 +25,7 @@ public class P_2_1_IterationToStreamOperations {
 
       infinite streams are possible
 
-      using parrallelStream() instead of stream() may parallelizes work
+      using parallelStream() instead of stream() may parallelizes work
      */
 
     @Test

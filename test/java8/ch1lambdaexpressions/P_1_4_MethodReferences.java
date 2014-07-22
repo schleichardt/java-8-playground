@@ -13,7 +13,7 @@ public class P_1_4_MethodReferences {
     /*
 
     It is most likely
-       object::methodName or instance::methodName
+       class::methodName or instance::methodName
      */
 
     @Test

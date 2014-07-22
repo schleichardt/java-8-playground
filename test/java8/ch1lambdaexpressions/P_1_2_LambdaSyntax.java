@@ -25,7 +25,7 @@ public class P_1_2_LambdaSyntax {
     public void withoutParametersWithoutReturnValue() {
         final ActorSystem system = ActorSystem.create();
         final Scheduler scheduler = system.scheduler();
-        scheduler.scheduleOnce(Demo.finiteDuration(), () -> Demo.doSomething(), system.dispatcher());
+        scheduler.scheduleOnce(Demo.finiteDuration(),() -> Demo.doSomething(), system.dispatcher());
         system.shutdown();
     }
 
@@ -117,6 +117,7 @@ public class P_1_2_LambdaSyntax {
             try (BufferedReader br = new BufferedReader(new FileReader(path))) {
                 return br.readLine();
             }
+            //br.close()
         }
     }
 

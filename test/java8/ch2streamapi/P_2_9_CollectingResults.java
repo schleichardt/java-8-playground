@@ -18,7 +18,8 @@ public class P_2_9_CollectingResults {
 
     @Test
     public void iterator() throws Exception {
-        final Iterator<String> iterator = Demo.newStringList().stream().iterator();
+        final Iterator<String> iterator =
+                Demo.newStringList().stream().iterator();
     }
 
     @Test
