@@ -13,6 +13,7 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 resolvers += Resolver.sonatypeRepo("snapshots")
 
 libraryDependencies ++= Seq(
-  "io.sphere.jvmsdk" %% "play-sdk" % "1.0.0-20140606-SNAPSHOT"
+  "io.sphere.jvmsdk" %% "play-sdk" % "1.0.0-20140606-SNAPSHOT",
+  javaWs
 )
 
