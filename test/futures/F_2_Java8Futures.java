@@ -222,7 +222,11 @@ for simplicity it is omitted.
     }
 
     //best practices like separating future and domain code
+    //open http://sphereio.github.io/sphere-jvm-sdk/javadoc/master/io/sphere/sdk/producttypes/package-summary.html#query-product-types
+
+
     //thenAccept vs. thenAcceptAsync
+    //open http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html
     //http://blog.krecan.net/2013/12/25/completablefutures-why-to-use-async-methods/
     //without async the mapped task may use the same thread pool/thread as the previous/thiw CompletableFuture one, with async it is added to the default thread pool or configured one
     //-> important for futures running in parallel
